@@ -22,7 +22,7 @@ class MenuItemFactory extends Factory
     {
         return [
             'menu_category_id' => MenuCategory::factory(),
-            'name' => $this->faker->unique()->word(),
+            'name' => $this->faker->unique(),
             'photo' => $this->faker->imageUrl(),
             'price' => $this->faker->randomFloat(2, 1, 999999999),
             'currency_type' => $this->faker->currencyCode(),
