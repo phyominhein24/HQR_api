@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\GeneralStatusEnum;
+use App\Helpers\Enum;
+use App\Models\MenuCategory;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MenuCategoryUpdateRequest extends FormRequest
@@ -21,8 +24,15 @@ class MenuCategoryUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $category = MenuCategory::findOrFail(request('id'));
+        $categoryId = $category->id;
+
+        $enum = implode(',', (new Enum(GeneralStatusEnum::class))->values());
+
         return [
-            //
+            'name' => "required|string|unique:categories,name,$categoryId|min:1|max:1000",
+            'description' => 'string|nullable',
+            'status' => "required|in:$enum"
         ];
     }
 }

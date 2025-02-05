@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\GeneralStatusEnum;
+use App\Helpers\Enum;
+use App\Models\Device;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeviceUpdateRequest extends FormRequest
@@ -11,7 +14,7 @@ class DeviceUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +24,15 @@ class DeviceUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $device = Device::findOrFail(request('id'));
+        $deviceId = $device->id;
+
+        $statusEnum = implode(',', (new Enum(GeneralStatusEnum::class))->values());
+
         return [
-            //
+            'mac_address' => "required|string|max:255|unique:devices,mac_address,$deviceId",
+            'expired_at' => 'required|date',
+            'status' => "required|in:$statusEnum",
         ];
     }
 }

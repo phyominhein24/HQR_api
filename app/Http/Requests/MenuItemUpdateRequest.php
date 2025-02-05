@@ -2,6 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\GeneralStatusEnum;
+use App\Enums\StockStatusEnum;
+use App\Helpers\Enum;
+use App\Models\MenuCategory;
+use App\Models\MenuItem;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MenuItemUpdateRequest extends FormRequest
@@ -11,7 +16,7 @@ class MenuItemUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +26,26 @@ class MenuItemUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+
+        $categories = MenuCategory::all()->pluck('id')->toArray();
+        $categories = implode(',', $categories);
+
+        $item = MenuItem::findOrFail(request('id'));
+        $itemId = $item->id;
+        
+        $enum = implode(',', (new Enum(StockStatusEnum::class))->values());
+        $enum2 = implode(',', (new Enum(GeneralStatusEnum::class))->values());
+
         return [
-            //
+            'menu_category_id' => "required|in:$categories",
+            'name' => "required|string|unique:menu_items,name,$itemId|min:1|max:1000",
+            'photo' => 'string|nullable',
+            'price' => ['required', 'numeric', 'between:0,999999999.99'],
+            'currency_type' => 'string',
+            'is_available' => "required|in:$enum",
+            'status' => "required|in:$enum2",
         ];
+
+        
     }
 }

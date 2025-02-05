@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\GeneralStatusEnum;
+use App\Helpers\Enum;
+use App\Models\RoomsType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RoomStoreRequest extends FormRequest
@@ -11,7 +14,7 @@ class RoomStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +24,21 @@ class RoomStoreRequest extends FormRequest
      */
     public function rules(): array
     {
+        $roomTypes = RoomsType::all()->pluck('id')->toArray();
+        $roomTypes = implode(',', $roomTypes);
+
+        $statusEnum = implode(',', (new Enum(GeneralStatusEnum::class))->values());
+
         return [
-            //
+            'room_type_id' => "required|in:$roomTypes",
+            'room_name' => 'nullable|string|max:255',
+            'room_photo' => 'nullable|json',
+            'beds' => 'required|json',
+            'price' => ['required', 'numeric', 'between:0,999999999.99'],
+            'promotion_price' => ['required', 'numeric', 'between:0,999999999.99'],
+            'currency_type' => 'required|string|max:10',
+            'room_qr' => 'required|string|max:255',
+            'status' => "required|in:$statusEnum",
         ];
     }
 }
