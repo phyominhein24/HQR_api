@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             // ShopSeeder::class,
             // SuperAdminSeeder::class,
             MenuCategorySeeder::class,
-            MenuItemSeeder::class
+            MenuItemSeeder::class,
+            // PasswordResetTokenSeeder::class
             // CategorySeeder::class,
             
             // CashierSeeder::class,
