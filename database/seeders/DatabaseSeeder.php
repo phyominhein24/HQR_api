@@ -15,12 +15,14 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $this->call([
-            PermissionSeeder::class,
-            RoleSeeder::class,
-            RoleHasPermissionSeeder::class,
+            // PermissionSeeder::class,
+            // RoleSeeder::class,
+            // RoleHasPermissionSeeder::class,
 
-            ShopSeeder::class,
-            SuperAdminSeeder::class,
+            // ShopSeeder::class,
+            // SuperAdminSeeder::class,
+            MenuCategorySeeder::class,
+            MenuItemSeeder::class
             // CategorySeeder::class,
             
             // CashierSeeder::class,
