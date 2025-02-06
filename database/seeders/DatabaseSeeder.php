@@ -15,21 +15,13 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $this->call([
-            // PermissionSeeder::class,
-            // RoleSeeder::class,
-            // RoleHasPermissionSeeder::class,
-
-            // ShopSeeder::class,
-            // SuperAdminSeeder::class,
             MenuCategorySeeder::class,
             MenuItemSeeder::class,
-            // PasswordResetTokenSeeder::class
-            // CategorySeeder::class,
-            
-            // CashierSeeder::class,
-            // TableNumberSeeder::class,
-            // CustomerSeeder::class,
-            // PrinterSeeder::class,
+            RoomTypeSeeder::class,
+            RoomSeeder::class,
+            OrderSeeder::class,
+            OrderItemSeeder::class,
+            DeviceSeeder::class
         ]);
 
         // for($i = 0; $i < 100000; $i++){

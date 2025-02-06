@@ -1,13 +1,16 @@
 <?php
 
 namespace Database\Factories;
+
+use App\Models\Device;
 use App\Enums\GeneralStatusEnum;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class MenuCategoryFactory extends Factory
+class DeviceFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,10 +19,9 @@ class MenuCategoryFactory extends Factory
      */
     public function definition(): array
     {
-        
         return [
-            'name' => $this->faker->unique()->name(),
-            'description' => $this->faker->sentence(),
+            'mac_address' => $this->faker->macAddress(),
+            'expired_at' => Carbon::now()->addDays($this->faker->numberBetween(30, 365)),
             'status' => GeneralStatusEnum::ACTIVE->value,
         ];
     }
